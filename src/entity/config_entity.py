@@ -9,12 +9,12 @@ TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
 # The below code is defining the configuration for the training pipeline
 
 @dataclass
-class TrainingPipielineConfig:
+class TrainingPipelineConfig:
     pipeline_name: str = 'src'
     artifact_dir: str = os.path.join(from_root(), 'artifact', TIMESTAMP)
     timestamp: datetime = TIMESTAMP
     
-training_pipeline_config: TrainingPipielineConfig = TrainingPipielineConfig()
+training_pipeline_config: TrainingPipelineConfig = TrainingPipelineConfig()
 
 
 @dataclass
@@ -36,3 +36,14 @@ class DataPreprocessingConfig:
     transformations_object_path = os.path.join(data_preprocessing_artifacts_dir, transformations_dir, TRANSFORMATION_OBJECT_NAME)
     class_mappings_object_path = os.path.join(data_preprocessing_artifacts_dir, transformations_dir, CLASS_MAPPING_OBJECT_NAME)
     sample_rate: int = SAMPLE_RATE
+    
+@dataclass
+class ModelTrainerConfig:
+    model_trainer_artifacts_dir: str = os.path.join(from_root(), training_pipeline_config.artifact_dir, MODEL_TRAINING_ARTIFACTS_DIR)
+    trained_model_dir: str = os.path.join(model_trainer_artifacts_dir, TRAINED_MODEL_NAME)
+    learning_rate = LEARNING_RATE
+    epochs: int = EPOCHS
+    batch_size: int = BATCH_SIZE
+    num_workers: int = NUM_WORKERS
+    stepsize: int = STEP_SIZE
+    gamma:float = GAMMA

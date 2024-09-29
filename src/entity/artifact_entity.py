@@ -15,3 +15,8 @@ class DataPreprocessingArtifacts:
     transformation_object: object
     num_classes: int
     
+@dataclass
+class ModelTrainerArtifacts:
+    trained_model_path: str
+    model_accuracy: float
+    model_loss: float
