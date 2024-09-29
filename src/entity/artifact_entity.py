@@ -20,3 +20,15 @@ class ModelTrainerArtifacts:
     trained_model_path: str
     model_accuracy: float
     model_loss: float
+    
+@dataclass
+class ModelEvaluationArtifacts:
+    trained_model_accuracy: float
+    s3_model_accuracy: float
+    is_model_accepted: bool
+    trained_model_path: str
+    s3_model_path: str
+
+@dataclass
+class ModelPusherArtifacts:
+    response: str 

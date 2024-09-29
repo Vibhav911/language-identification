@@ -47,3 +47,19 @@ class ModelTrainerConfig:
     num_workers: int = NUM_WORKERS
     stepsize: int = STEP_SIZE
     gamma:float = GAMMA
+    
+@dataclass
+class ModelEvaluationConfig:
+    s3_model_path: str = S3_BUCKET_MODEL_URI
+    model_evaluation_artifacts_dir: str = os.path.join(training_pipeline_config.artifact_dir, MODEL_EVALUATION_DIR)
+    best_model_dir: str = os.path.join(model_evaluation_artifacts_dir, S3_MODEL_DIR_NAME)
+    base_accuracy: float = BASE_ACCURACY
+
+@dataclass
+class PredictionPipelineConfig:
+    s3_model_path = S3_BUCKET_MODEL_URI
+    prediction_artifact_dir = os.path.join(from_root(), 'artifact', 'prediction_artifact')
+    model_download_path = os.path.join(prediction_artifact_dir, PREDICTION_MODEL_DIR_NAME) 
+    transformation_download_path = os.path.join(prediction_artifact_dir, TRANSFORMATION_DOWNLOAD_DIR)
+    app_artifacts = os.path.join(prediction_artifact_dir, 'user_input_audio')
+    input_sounds_path = os.path.join(app_artifacts, 'inputSound.wav')

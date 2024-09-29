@@ -36,3 +36,15 @@ BATCH_SIZE = 128
 NUM_WORKERS = 0
 STEP_SIZE = 6
 GAMMA = 0.5
+
+# constant related to model evaluation
+S3_BUCKET_MODEL_URI: str = "s3://language-audio-data/model/"
+MODEL_EVALUATION_DIR: str = "model_evaluation"
+S3_MODEL_DIR_NAME: str = "s3_model"
+IN_CHANNELS: int = 1
+BASE_ACCURACY: float = 0.6
+
+# constant related to prediction pipeline
+PREDICTION_MODEL_DIR_NAME = "prediction_model"
+TRANSFORMATION_DOWNLOAD_DIR = 'transformations'
+NUM_CLASSES = 4
