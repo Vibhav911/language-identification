@@ -44,6 +44,7 @@ list_of_files = [
     "templates/index.html",
     'static/css/style.css',
     'bestmodel/__init__.py',
+    'download/__init__.py',
     "prediction_dataset/__init__.py"
 ]
 
