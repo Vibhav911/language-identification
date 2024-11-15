@@ -52,7 +52,7 @@ class DataIngestions:
             extracted_data_dir = os.path.join(unzip_data_path, UNZIPPED_FOLDERNAME)
             
             if os.path.isdir(extracted_data_dir):
-                logging.info("Unzipped Folder already exists in unzip directory, sp skipping unzip operations")
+                logging.info("Unzipped Folder already exists in unzip directory, so skipping unzip operations")
             else:
                 os.makedirs(unzip_data_path, exist_ok=True)
                 with ZipFile(zip_file_path, "r") as zip_file_ref:
