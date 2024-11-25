@@ -112,7 +112,7 @@ class SinglePrediction:
             download_path = self.prediction_pipeline_config.transformation_download_path
             os.makedirs(download_path, exist_ok=True)
             self.s3_sync.sync_folder_from_s3(folder=download_path, aws_bucket_url=S3_ARTIFACTS_URI)
-            class_mappings_path = os.path.join(download_path,CLASS_MAPPINGS_OBJECT_NAME)
+            class_mappings_path = os.path.join(download_path, CLASS_MAPPING_OBJECT_NAME)
             class_mapping = load_object(file_path=class_mappings_path)
             if prediction_model is not None:
                 output = self.prediction_step(prediction_model, class_mapping, input_signal)

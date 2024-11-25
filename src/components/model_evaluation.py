@@ -31,6 +31,7 @@ class ModelEvaluation:
           The best model path is being returned.
         """
         try:
+            logging.info("Getting the best model path")
             model_evaluation_artifacts_dir = self.model_evaluation_config.model_evaluation_artifacts_dir
             os.makedirs(model_evaluation_artifacts_dir, exist_ok=True)
             model_path = self.model_evaluation_config.s3_model_path
@@ -59,6 +60,7 @@ class ModelEvaluation:
           The model accuracy and loss
         """
         try:
+            logging.info("Evaluating the model")
             best_model_path = self.get_best_model_path()
             if best_model_path is not None:
                 state_dict = torch.load(best_model_path, map_location='cpu')

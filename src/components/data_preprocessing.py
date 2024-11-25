@@ -38,6 +38,7 @@ class DataPreprocessing:
         encoded class mapping dictionary.
         """
         try:
+            logging.info("Getting the meta data")
             audio_dir = self.data_ingestion_artifact.extract_dir_path
             metadata = {}
             for label in os.listdir(audio_dir):
@@ -72,7 +73,8 @@ class DataPreprocessing:
         """
         
         try:
-            split = StratifiedShuffleSplit(n_splits=5, train_size=0.7, test_size=0.3, random_state=42)
+            logging.info("Performing train test split")
+            split = StratifiedShuffleSplit(n_splits=5, train_size=0.8, test_size=0.2, random_state=42)
             for train_index, test_index in split.split(metadata, metadata['labels']):
                 strat_train_set = metadata.loc[train_index]
                 strat_val_set = metadata.loc[test_index]
@@ -84,6 +86,7 @@ class DataPreprocessing:
             # Save train and test metadata
             train_file_path = self.data_preprocessing_config.train_file_path
             test_file_path = self.data_preprocessing_config.test_file_path
+            
             
             strat_train_set.to_csv(train_file_path, index=False)
             strat_val_set.to_csv(test_file_path, index=False)
@@ -98,6 +101,7 @@ class DataPreprocessing:
         Returns:
             The MelSpectrogram object is being returned.
         """
+        #logging.info("Performing audio transformations")
         mel_spectrogram = torchaudio.transforms.MelSpectrogram(
             sample_rate=self.data_preprocessing_config.sample_rate,
             n_fft=FFT_SIZE,

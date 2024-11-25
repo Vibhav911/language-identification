@@ -3,6 +3,7 @@ import torch
 import os
 import pandas as pd
 from torch.utils.data import Dataset
+from src.logger import logging
 
 
 class IndianLanguageDataset(Dataset):
@@ -17,6 +18,7 @@ class IndianLanguageDataset(Dataset):
     return len(self.annotations)
 
   def __getitem__(self,idx):
+    #logging.info("Transforming audio into signals")
     audio_sample_path = self._get_audio_sample_path(idx)
     label = self._get_audio_sample_label(idx)
     signal, sr = torchaudio.load(audio_sample_path)
@@ -31,6 +33,7 @@ class IndianLanguageDataset(Dataset):
     """
     > It takes the index of the audio file and returns the path of the audio file
     """
+    #logging.info("1) Getting the audio")
     class_name = f"{self.annotations.iloc[idx, 1]}"
     path = os.path.join(self.audio_dir, class_name, self.annotations.iloc[idx, 0])
     return path
@@ -39,12 +42,14 @@ class IndianLanguageDataset(Dataset):
     """
     > This function returns the label of the audio sample at the given index
     """
+    #logging.info("2) Getting audio sample label")
     return self.annotations.iloc[idx, 2]
   
   def resample_audio(self, signal, sr):
     """
     > Resample the audio signal to the target sample rate
     """
+    #logging.info("3) Resampling the audio")
     if sr != self.target_sample_rate:
         resampler = torchaudio.transforms.Resample(sr, self.target_sample_rate)
         signal = resampler(signal)
@@ -54,6 +59,7 @@ class IndianLanguageDataset(Dataset):
     """
     > If the signal has more than one channel, average the channels together
     """
+    #logging.info("4) Mixing down channels")
     if signal.shape[0] > 1:
         signal = torch.mean(signal, dim = 0, keepdim=True)
     return signal
@@ -62,6 +68,7 @@ class IndianLanguageDataset(Dataset):
     """
     > If the signal is longer than the number of samples, cut it down to the number of samples
     """
+    #logging.info("5) Cutting the audio if needed")
     if signal.shape[1] > self.num_samples:
         signal = signal[:, :self.num_samples]
     return signal 
@@ -70,6 +77,7 @@ class IndianLanguageDataset(Dataset):
     """
     > If the signal is shorter than the number of samples, pad the signal with zeros
     """
+    #logging.info("6) Doing the padding")
     length_signal = signal.shape[1]
     if length_signal < self.num_samples:
         num_missing = self.num_samples - length_signal

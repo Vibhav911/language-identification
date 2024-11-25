@@ -2,7 +2,7 @@
 DOWNLOAD_DIR = "download"
 EXTRACT_DIR = 'download_language_data'
 ZIPFILE_NAME = 'language-audio-data.zip'
-S3_BUCKET_URI = 's3://language-audio-data/dataset/'
+S3_BUCKET_URI = 's3://datascience-projects-bucket/language_identification/dataset'
 UNZIPPED_FOLDERNAME = 'language-audio-data'
 
 DATA_PREPROCESSING_ARTIFACTS_DIR = "data_preprocessing_artifacts"
@@ -18,7 +18,7 @@ DATA_PREPROCESSING_TRAIN_TEST_SPLIT_RATIO: float = 0.2
 OTHER_ARTIFACTS = 'transformation'
 TRANSFORMATION_OBJECT_NAME = 'mel_spectrogram.pkl'
 CLASS_MAPPING_OBJECT_NAME = 'class_mappings.pkl'
-S3_ARTIFACTS_URI: str = "s3://language-audio-data/transformation-artifacts/"
+S3_ARTIFACTS_URI: str = "s3://datascience-projects-bucket/language_identification/transformation-artifacts"
 
 # Constants related to data transformations
 SAMPLE_RATE: int = 4000
@@ -31,14 +31,15 @@ N_MELS: int = 64
 MODEL_TRAINING_ARTIFACTS_DIR: str = "model_training_artifacts"
 TRAINED_MODEL_NAME = "model.pt"
 LEARNING_RATE = 0.001
-EPOCHS = 1
+EPOCHS = 50
 BATCH_SIZE = 128
 NUM_WORKERS = 0
 STEP_SIZE = 6
-GAMMA = 0.5
+MILESTONES = [500]
+GAMMA = 0.1
 
 # constant related to model evaluation
-S3_BUCKET_MODEL_URI: str = "s3://language-audio-data/model/"
+S3_BUCKET_MODEL_URI: str = "s3://datascience-projects-bucket/language_identification/model"
 MODEL_EVALUATION_DIR: str = "model_evaluation"
 S3_MODEL_DIR_NAME: str = "s3_model"
 IN_CHANNELS: int = 1

@@ -32,6 +32,7 @@ def home():
 def train():
     train_pipeline = TrainingPipeline()
     train_pipeline.run_pipeline()
+    return "Training successful"
     
 @app.route('/predict', methods=['POST'])
 @cross_origin()
@@ -55,4 +56,4 @@ def predictroute():
         return jsonify({'Result': result})
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080)

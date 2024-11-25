@@ -46,6 +46,7 @@ class ModelTrainerConfig:
     batch_size: int = BATCH_SIZE
     num_workers: int = NUM_WORKERS
     stepsize: int = STEP_SIZE
+    milestones = MILESTONES
     gamma:float = GAMMA
     
 @dataclass

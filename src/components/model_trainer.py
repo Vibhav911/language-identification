@@ -1,8 +1,7 @@
 import os
 import sys
-
 import torch
-from torch.optim.lr_scheduler import StepLR
+from torch.optim.lr_scheduler import MultiStepLR
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -25,6 +24,7 @@ class ModelTrainer:
             self.model_trainer_config = modeltrainer_config
             self.learning_rate = modeltrainer_config.learning_rate 
             self.epochs = modeltrainer_config.epochs
+            self.milestones = modeltrainer_config.milestones
             self.optimizer_func = optimizer_func
             self.train_data = train_data
             self.test_data = test_data
@@ -47,6 +47,7 @@ class ModelTrainer:
           The validation loss and the validation accuracy.
         """
         try:
+            logging.info("Evaluating the model")
             model.eval()
             outputs = [model.validation_step(batch) for batch in val_loader]
             return model.validation_epoch_end(outputs)
@@ -66,11 +67,13 @@ class ModelTrainer:
           The history of the training process.
         """
         try:
+            logging.info("Performing fit on the model")
             history = []
             self.model.train()
             optimizer = self.optimizer_func(self.model.parameters(), self.learning_rate)
-            scheduler = StepLR(optimizer= optimizer, 
-                               step_size= self.model_trainer_config.stepsize, 
+            scheduler = MultiStepLR(optimizer= optimizer, 
+                              # step_size= self.model_trainer_config.stepsize, 
+                              milestones= self.model_trainer_config.milestones,
                                gamma= self.model_trainer_config.gamma
                                )
             for epoch in range(1, self.epochs + 1):
@@ -111,6 +114,7 @@ class ModelTrainer:
           A tuple of two DataLoader objects.
         """
         try:
+            logging.info("Initializing the dataloader")
             train_loader = DataLoader(self.train_data,
                                     batch_size=self.model_trainer_config.batch_size,
                                     shuffle=True,
@@ -133,6 +137,7 @@ class ModelTrainer:
 
             train_loader, val_loader = self.get_dataloader()
             # use the wrapper class to load the data to device
+            logging.info("loading the data ")
             train_dataloader = GPUDataLoader(train_loader, self.device)
             test_dataloader = GPUDataLoader(val_loader, self.device)
 

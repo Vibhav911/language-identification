@@ -1,5 +1,6 @@
 import torch
 import sys
+import os
 from src.components.data_ingestion import DataIngestions
 from src.components.data_preprocessing import DataPreprocessing
 from src.components.custom_dataset import IndianLanguageDataset
@@ -119,24 +120,37 @@ class TrainingPipeline:
         The function runs the data ingestion, data preprocessing, model training, model evaluation, and
         model pusher steps in the pipeline and completes the training pipeline
         """
-        logging.info(">>>> Initializing training pipeline <<<<")
+        logging.info(">>>> Initializing training pipeline <<<<\n\n")
         try:
+            logging.info(">>>> Starting data ingestion  ==========<<<<")
             data_ingestion_artifacts = self.start_data_ingestion()
-
+            logging.info(">>>> Completed data ingestion ==========<<<<\n\n")
+            
+            logging.info(">>>> Starting data preprocessing  ==========<<<<")
             data_preprocessing_artifacts = self.start_data_preprocessing(
                 data_ingestion_artifacts=data_ingestion_artifacts)
-
+            logging.info(">>>> Completed data preprocessing ==========<<<<\n\n")
+            
+            logging.info(">>>> Starting data trainer  ==========<<<<")
             model_trainer_artifacts = self.start_model_training(
                 data_preprocessing_artifacts=data_preprocessing_artifacts)
+            logging.info(">>>> Completed data trainer ==========<<<<\n\n")
 
+
+            logging.info(">>>> Starting model evaluation  ==========<<<<")
             model_evaluation_artifacts = self.start_model_evaluation(model_trainer_artifacts=model_trainer_artifacts)
+            logging.info(">>>> Completed model evaluation ==========<<<<\n\n")
 
+
+            logging.info(">>>> Starting model pusher  ==========<<<<")
             model_pusher_artifact = self.start_model_pusher(
                 model_evaluation_artifacts=model_evaluation_artifacts)
+            logging.info(">>>> Completed model pusher ==========<<<<\n\n")
+
 
             logging.info(f" The final model pusher artifacts {model_pusher_artifact}")
 
-            logging.info("<<<< Training pipeline completed >>>>")
+            logging.info("\n<<<< Training pipeline completed >>>>\n")
         except Exception as e:
             raise CustomException(e, sys)
 
