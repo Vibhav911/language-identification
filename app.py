@@ -9,7 +9,7 @@ from src.pipeline.training_pipeline import TrainingPipeline
 from src.utils import decodesound
 from src.cloud_storage.s3_operations import S3Sync
 from src.utils import load_object
-from src.constants import *
+from src.constants import * #S3_ARTIFACTS_URI, TRANSFORMATION_OBJECT_NAME, SAMPLE_RATE, NUM_SAMPLES
 
 app = Flask(__name__)
 CORS(app)

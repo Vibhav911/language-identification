@@ -13,4 +13,8 @@ sox
 flask
 soundfile
 PySoundFile
+fastapi             
+uvicorn             
+Jinja2             
+python-multipart    
 -e .
